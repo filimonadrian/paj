@@ -9,11 +9,6 @@ public class Client implements Comparable<Client> {
 	private String city;
 	private Set<Account> accounts = new HashSet<Account>();
 
-//	public Client(String name, Gender gender) {
-//		this.name = name;
-//		this.gender = gender;
-//	}
-
 	public Client(String name, Gender gender, String city) {
 		this.name = name;
 		this.gender = gender;

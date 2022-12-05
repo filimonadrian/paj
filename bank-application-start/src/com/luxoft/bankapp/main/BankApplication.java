@@ -18,9 +18,9 @@ public class BankApplication {
 		modifyBank();
 
 		if (args[0].equals("-statistics")) {
-			BankReport bankReport = new BankReport();
 			addMoreClients();
-			consoleMode(bankReport);
+			//consoleMode();
+			consoleModeFunctional();
 		} else {
 			printBalance();
 			BankService.printMaximumAmountToWithdraw(bank);
@@ -122,9 +122,11 @@ public class BankApplication {
 			}
 		}
 	}
-	private static void consoleMode(BankReport bankReport) {
+	private static void consoleMode() {
 		Scanner in = new Scanner(System.in);
 		String command;
+		BankReport bankReport = new BankReport();
+
 		System.out.println("\nPress any key for options(case insensitive)");
 
 		while(true) {
@@ -143,7 +145,9 @@ public class BankApplication {
 				case "customeraccounts" ->
 						System.out.println("Customer Accounts: " + bankReport.getCustomerAccounts(bank));
 				case "clientsbycity" -> System.out.println("Clients by city: " + bankReport.getClientsByCity(bank));
-				case "exit", "q" -> System.exit(0);
+				case "exit", "q" -> {
+					return;
+				}
 				default -> System.out.println("Options:\n" +
 						"numberofclients\n" +
 						"numberofaccounts\n" +
@@ -153,6 +157,46 @@ public class BankApplication {
 						"bankcreditsum\n" +
 						"customeraccounts\n" +
 						"clientsbycity\n" +
+						"exit q\n");
+			}
+		}
+	}
+
+	private static void consoleModeFunctional() {
+		Scanner in = new Scanner(System.in);
+		BankReportStreams bankReport = new BankReportStreams();
+		String command;
+
+		System.out.println("\nPress any key for options(case insensitive)");
+
+		while(true) {
+			command = in.nextLine();
+			switch (command.toLowerCase()) {
+				case "numberofclients", "1" ->
+						System.out.println("Number of clients: " + bankReport.getNumberOfClients(bank));
+				case "numberofaccounts", "2" ->
+						System.out.println("Number of accounts: " + bankReport.getNumberOfAccounts(bank));
+				case "clientssorted", "3" -> System.out.println("Clients sorted " + bankReport.getClientsSorted(bank));
+				case "totalsuminaccounts", "4" ->
+						System.out.println("Total sum in accounts: " + bankReport.getTotalSumInAccounts(bank));
+				case "accountssortedbysum", "5" ->
+						System.out.println("Accounts sorted by sum: " + bankReport.getAccountsSortedBySum(bank));
+				case "bankcreditsum", "6" -> System.out.println("Bank credit sum: " + bankReport.getBankCreditSum(bank));
+				case "customeraccounts", "7" ->
+						System.out.println("Customer Accounts: " + bankReport.getCustomerAccounts(bank));
+				case "clientsbycity", "8" -> System.out.println("Clients by city: " + bankReport.getClientsByCity(bank));
+				case "exit", "q" -> {
+					return;
+				}
+				default -> System.out.println("Options:\n" +
+						"numberofclients 1\n" +
+						"numberofaccounts 2\n" +
+						"clientssorted 3\n" +
+						"totalsuminaccounts 4\n" +
+						"accountssortedbysum 5\n" +
+						"bankcreditsum 6\n" +
+						"customeraccounts 7\n" +
+						"clientsbycity 8\n" +
 						"exit q\n");
 			}
 		}
