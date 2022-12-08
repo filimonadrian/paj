@@ -8,13 +8,13 @@ import com.luxoft.bankapp.domain.Client;
 
 public class BankReport {
 
-    public int getNumberOfClients(Bank bank) {
+    public long getNumberOfClients(Bank bank) {
         return bank.getClients().size();
     }
 
-    public int getNumberOfAccounts(Bank bank) {
+    public long getNumberOfAccounts(Bank bank) {
         Set<Client> clients = bank.getClients();
-        int numberOfAccounts = 0;
+        long numberOfAccounts = 0;
 
         for (Client client : clients) {
             numberOfAccounts += client.getAccounts().size();

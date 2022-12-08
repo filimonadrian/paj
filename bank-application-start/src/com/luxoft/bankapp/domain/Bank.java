@@ -4,13 +4,15 @@ import java.text.DateFormat;
 import java.util.*;
 
 import com.luxoft.bankapp.exceptions.ClientExistsException;
+import com.luxoft.bankapp.exceptions.EmailException;
 import com.luxoft.bankapp.utils.ClientRegistrationListener;
 
 public class Bank {
 
 	private final Set<Client> clients = new HashSet<>();
 	private final List<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
-	
+
+	private EmailService emailService;
 	private int printedClients = 0;
 	private int emailedClients = 0;
 	private int debuggedClients = 0;
@@ -27,6 +29,10 @@ public class Bank {
 		if (o == null || getClass() != o.getClass()) return false;
 		Bank bank = (Bank) o;
 		return printedClients == bank.printedClients && emailedClients == bank.emailedClients && debuggedClients == bank.debuggedClients && Objects.equals(clients, bank.clients) && Objects.equals(listeners, bank.listeners);
+	}
+
+	public void setEmailService(EmailService emailService) {
+		this.emailService = emailService;
 	}
 
 	@Override
@@ -77,11 +83,24 @@ public class Bank {
 	}
 	
 	class EmailNotificationListener implements ClientRegistrationListener {
-		@Override 
+		@Override
 		public void onClientAdded(Client client) {
-	        System.out.println("Notification email for client " + client.getName() + " to be sent");
-	        emailedClients++;
-	    }
+			System.out.println("Notification email for client " + client.getName() + " to be sent");
+			emailedClients++;
+			if (emailService != null) {
+				try {
+					emailService.sendNotificationEmail(
+							new Email()
+									.setFrom("Admin")
+									.setTo("Manager")
+									.setTitle("Client Added Notification")
+									.setBody("Client added: " + client)
+					);
+				} catch (EmailException e) {
+					System.err.println(e.getMessage());
+				}
+			}
+		}
 	}
 	
 	class DebugListener implements ClientRegistrationListener {

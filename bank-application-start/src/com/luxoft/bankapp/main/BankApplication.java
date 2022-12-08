@@ -15,15 +15,21 @@ public class BankApplication {
 	
 	public static void main(String[] args) {
 		bank = new Bank();
-		modifyBank();
+		EmailService emailService = new EmailService();
+		bank.setEmailService(emailService);
 
-		if (args[0].equals("-statistics")) {
-			addMoreClients();
-			//consoleMode();
-			consoleModeFunctional();
-		} else {
+		modifyBank();
+		addMoreClients(bank);
+		emailService.close();
+
+		if (args.length == 0) {
 			printBalance();
 			BankService.printMaximumAmountToWithdraw(bank);
+			System.out.println("Number of sent emails: " + emailService.getSentEmails());
+
+		} else if (args[0].equals("-statistics")) {
+			//consoleMode();
+			consoleModeFunctional();
 		}
 	}
 	
@@ -72,7 +78,7 @@ public class BankApplication {
 	    } 
 	}
 
-	private static void addMoreClients() {
+	public static void addMoreClients(Bank bank) {
 		/* first client */
 		Client client1 = new Client("Oliver", Gender.MALE, "Bucharest");
 		Account account1 = new SavingAccount(3, 523);
