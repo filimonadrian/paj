@@ -5,14 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.luxoft.bankapp.domain.*;
 import org.junit.Test;
 
-import com.luxoft.bankapp.domain.Account;
-import com.luxoft.bankapp.domain.Bank;
-import com.luxoft.bankapp.domain.CheckingAccount;
-import com.luxoft.bankapp.domain.Client;
-import com.luxoft.bankapp.domain.Gender;
-import com.luxoft.bankapp.domain.SavingAccount;
 import com.luxoft.bankapp.exceptions.ClientExistsException;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.exceptions.OverdraftLimitExceededException;
@@ -40,7 +35,20 @@ public class Test1 {
 		assertEquals(100, checkingAccount.overdraft, 0);
 		assertEquals(50, checkingAccount.maximumAmountToWithdraw(), 0);
 	}
-	
+
+	@Test
+	public void testAccountFactory() {
+		AbstractAccount checkingAccount, savingAccount, nullObject;
+
+		checkingAccount = AccountFactory.newAccount("CHECKING", 5);
+		savingAccount = AccountFactory.newAccount("SAVING", 6);
+		nullObject = AccountFactory.newAccount("WRONG_OBJECT_TYPE", 7);
+
+		assertEquals("CheckingAccount", checkingAccount.getClass().getSimpleName());
+		assertEquals("SavingAccount", savingAccount.getClass().getSimpleName());
+		assertEquals(null, nullObject);
+	}
+
 	@Test
 	public void testClient() {
 		Client client = new Client("Smith John", Gender.MALE); 
