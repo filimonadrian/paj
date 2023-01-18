@@ -31,7 +31,14 @@ public class CheckingAccount extends AbstractAccount {
 		this.currency = currency;
 		this.setType(AbstractAccount.CHECKING_ACCOUNT_TYPE);
 	}
-	
+
+	public double getOverdraft() {
+		return overdraft;
+	}
+	public void printAccountDetails() {
+		System.out.println(this);
+	}
+
 	public Currency getCurrency() {
 		return currency;
 	}
@@ -45,7 +52,6 @@ public class CheckingAccount extends AbstractAccount {
         }
     }
 
-	@Override
 	public String toString() {
 		Formatter fmt = new Formatter(Locale.US);
 		String stringAccount = fmt.format("Checking account %d, balance: %.2f, overdraft: %.2f", getId(), balance, overdraft).toString(); 

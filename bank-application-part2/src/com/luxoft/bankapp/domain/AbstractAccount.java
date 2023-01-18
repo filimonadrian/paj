@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.utils.Params;
 
-public abstract class AbstractAccount implements Account, Serializable {
+public abstract class AbstractAccount implements Account, Serializable, Cloneable {
 	
 	private static final long serialVersionUID = -2272551373694344386L;
 	
@@ -25,6 +25,8 @@ public abstract class AbstractAccount implements Account, Serializable {
 	public int getType() {
 		return type;
 	}
+
+	public abstract void printAccountDetails();
 
 	public void setType(int type) {
 		this.type = type;
@@ -62,6 +64,17 @@ public abstract class AbstractAccount implements Account, Serializable {
 		
         return 0;
     }
+
+	@Override
+	public AbstractAccount clone() {
+		AbstractAccount clone = null;
+		try {
+			clone = (AbstractAccount)super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return clone;
+	}
 
 	@Override
 	public int getId() {
