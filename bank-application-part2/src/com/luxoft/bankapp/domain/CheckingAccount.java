@@ -42,7 +42,11 @@ public class CheckingAccount extends AbstractAccount {
 	public Currency getCurrency() {
 		return currency;
 	}
-	
+
+	public double maximumAmountToWithdraw(){
+		return this.getBalance() + this.getOverdraft();
+	}
+
 	@Override
     public void withdraw(double value) throws OverdraftLimitExceededException {
         try {

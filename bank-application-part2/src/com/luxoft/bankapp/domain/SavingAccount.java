@@ -30,6 +30,10 @@ public class SavingAccount extends AbstractAccount {
 		System.out.println(this);
 	}
 
+	public double maximumAmountToWithdraw(){
+		return this.getBalance();
+	}
+
 	@Override
 	public String toString() {
 		Formatter fmt = new Formatter(Locale.US);
